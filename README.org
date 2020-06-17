@@ -1,0 +1,94 @@
+#+TITLE: myofficetoolbox
+#+AUTHOR: opamp_sando
+
+* 概要
+
+お仕事するときにちょっと作ったり使ったりした自作ツール置き場。
+会社で実行する必要がある関係で、大抵powershellかpythonかEmacs Lispになる。
+
+** codesize
+*** 概要
+
+指定したファイルまたはディレクトリに含まれる特定ファイルのサイズと行数をカウントするPowershellスクリプト。
+出力は各ファイル毎及び全ファイル合計が出力される。
+
+*** 使い方
+
+#+BEGIN_SRC 
+$ codesize.ps1 TARGETS TARGET_INCLUDE EXCLUDE_PATTERN TRIM CSV RESOLVE
+#+END_SRC
+
+**** TARGETS
+
+対象ファイルまたはディレクトリを指定する。配列でも指定可能。
+
+dir1を対象とする場合
+#+BEGIN_SRC 
+$ codesize.ps1 dir1
+#+END_SRC
+
+dir1とdir2を対象とする場合
+#+BEGIN_SRC 
+$ codesize.ps1 dir1,dir2
+#+END_SRC
+
+**** TARGET_INCLUDE
+
+TARGETSに指定したファイル/ディレクトリを絞り込むパターンを指定する。配列でも指定可能。
+また、指定を省略するとすべてのファイルが対象となる。
+
+拡張子がcのファイルのみdir1から探して対象とする場合
+#+BEGIN_SRC 
+$ codesize.ps1 dir1 *.c
+#+END_SRC
+
+拡張子がcとhのファイルのみdir1から探して対象とする場合
+#+BEGIN_SRC 
+$ codesize.ps1 dir1 *.c,*.h
+#+END_SRC
+
+**** EXCLUDE_PATTERN
+
+対象ファイルのうち、除外行のパターンを指定する。配列でも指定可能。
+また、指定を省略すると除外は行わず、対象ファイルの全行が対象となる。
+
+C言語のコメント//から始まる行を除外する場合
+#+BEGIN_SRC 
+$ codesize.ps1 dir1 *.c,*.h "^\s*//"
+#+END_SRC
+
+**** TRIM
+
+指定されると、空行を削除した行数をカウントする。容量に対しては操作しない。
+
+#+BEGIN_SRC 
+$ codesize.ps1 dir1 -trim
+#+END_SRC
+
+#+BEGIN_SRC 
+$ codesize.ps1 dir1 *.c,*.h "^\s*//" -trim
+#+END_SRC
+
+**** CSV
+
+出力形式をCSV形式にする。指定しない場合はUNIXのwcに近い形式になる。
+
+#+BEGIN_SRC 
+$ codesize.ps1 dir1,dir2 -csv
+#+END_SRC
+
+**** RESOLVE
+
+出力時のファイル名を絶対PATHにする。指定しない場合は相対PATHとして出力される
+
+#+BEGIN_SRC 
+$ codesize.ps1 dir1,dir2 -resolve
+#+END_SRC
+
+#+BEGIN_SRC 
+$ codesize.ps1 dir1,dir2 -csv -resolve
+#+END_SRC
+* License
+
+License.txtを参照
+(See License.txt)
