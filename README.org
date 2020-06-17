@@ -6,6 +6,8 @@
 お仕事するときにちょっと作ったり使ったりした自作ツール置き場。
 会社で実行する必要がある関係で、大抵powershellかpythonかEmacs Lispになる。
 
+* 入ってるツール情報
+
 ** codesize
 *** 概要
 
@@ -88,6 +90,31 @@ $ codesize.ps1 dir1,dir2 -resolve
 #+BEGIN_SRC 
 $ codesize.ps1 dir1,dir2 -csv -resolve
 #+END_SRC
+** ResourceTester
+
+*** 概要
+
+指定したコマンドの負荷情報を定期的に取得しcsvファイルに保存するスクリプト。最後に実行時間も表示する。
+
+*** 使い方
+
+#+BEGIN_SRC 
+$ ResourceTester outputfile,time_outputfile interval cmd args...
+#+END_SRC
+
+- outputfile: 出力ファイル名(csv形式になる)
+- time_outputfile: [省略可]実行時間情報を出力するファイル名(csv形式になる)
+- interval: 情報を取得する間隔(ms)
+- cmd: 実行するコマンド名
+- args: [省略可]コマンドに渡す引数
+
+**** 例
+
+#+BEGIN_SRC 
+$ ResourceTester output.csv,timeinfo.csv 500 emacs main.c
+#+END_SRC
+
+
 * License
 
 License.txtを参照
