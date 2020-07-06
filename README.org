@@ -1,5 +1,6 @@
 #+TITLE: myofficetoolbox
 #+AUTHOR: opamp_sando
+#+OPTIONS: ^:{}
 
 * 概要
 
@@ -99,21 +100,25 @@ $ codesize.ps1 dir1,dir2 -csv -resolve
 *** 使い方
 
 #+BEGIN_SRC 
-$ ResourceTester outputfile,time_outputfile interval cmd args...
+$ ResourceTester cpuusageon outputfile,time_outputfile interval cmd args...
 #+END_SRC
 
+- cpuusageon: CPU使用率をCSVに含めるか指定する($Trueまたは$False)
 - outputfile: 出力ファイル名(csv形式になる)
 - time_outputfile: [省略可]実行時間情報を出力するファイル名(csv形式になる)
 - interval: 情報を取得する間隔(ms)
 - cmd: 実行するコマンド名
 - args: [省略可]コマンドに渡す引数
 
+CPU使用率はGet-Counterで取得するように作成したが、取得時間がかかるのでCPU使用率を取得する場合、Intervalより長い時間がかかる可能性がある。
+そのためInterval通りの間隔で計測できない可能性が高い。
+また、Get-Counterは時々何故か取得に失敗するため、失敗した場合は-1が出力されるようにしている。(Windows初心者すぎて原因不明)
+
 **** 例
 
 #+BEGIN_SRC 
-$ ResourceTester output.csv,timeinfo.csv 500 emacs main.c
+$ ResourceTester $False output.csv,timeinfo.csv 500 emacs main.c
 #+END_SRC
-
 
 * License
 
