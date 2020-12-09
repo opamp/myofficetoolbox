@@ -16,7 +16,8 @@ def get_svnlog(id):
 
 def confirmation_id(logentry, id):
     msg = logentry.find('msg').text
-    msgfinalline = msg.split('\n')[-2]
+    msg = msg.rstrip()
+    msgfinalline = msg.split('\n')[-1]
     revstr = msgfinalline.split(' ')[1]
     revnum = int(revstr.replace('#',''))
     if int(id) == revnum:
