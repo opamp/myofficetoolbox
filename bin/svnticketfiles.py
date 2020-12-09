@@ -2,13 +2,10 @@
 
 import sys
 import subprocess
-import re
 import xml.etree.ElementTree as ET
 
-# <TODO>
-# チケット番号10と1がある場合、1を検索すると10もヒットするみたいなバグがあるので修正したい
-# 今回の用途ではこんなかぶり方はしないと思うけど...
 
+# svn diff econding
 encode_code = 'utf-8'
 
 
@@ -17,11 +14,23 @@ def get_svnlog(id):
     return subprocess.run(svncmd.split(' '), encoding='utf-8', stdout=subprocess.PIPE).stdout
 
 
-def parselog(xmlstr):
+def confirmation_id(logentry, id):
+    msg = logentry.find('msg').text
+    msgfinalline = msg.split('\n')[-2]
+    revstr = msgfinalline.split(' ')[1]
+    revnum = int(revstr.replace('#',''))
+    if int(id) == revnum:
+        return True
+    else:
+        return False
+    
+
+def parselog(xmlstr, id):
     rtn = []
     root = ET.fromstring(xmlstr)
     for logentry in root:
-        rtn.append('r{}'.format(logentry.attrib['revision']))
+        if confirmation_id(logentry, id):
+            rtn.append('r{}'.format(logentry.attrib['revision']))
     return rtn
 
 
@@ -58,7 +67,7 @@ if __name__ == '__main__':
         # get related svn log
         logxml = get_svnlog(sys.argv[1])
         # parse log message and get rev numbers
-        revs = parselog(logxml)
+        revs = parselog(logxml, sys.argv[1])
         # get related files of parsed rev
         result = get_relatefiles(revs)
         # show result
