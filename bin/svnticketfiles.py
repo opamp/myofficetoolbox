@@ -5,6 +5,9 @@ import subprocess
 import re
 import xml.etree.ElementTree as ET
 
+# <TODO>
+# チケット番号10と1がある場合、1を検索すると10もヒットするみたいなバグがあるので修正したい
+# 今回の用途ではこんなかぶり方はしないと思うけど...
 
 encode_code = 'utf-8'
 
