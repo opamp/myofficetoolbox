@@ -5,9 +5,12 @@ import subprocess
 import re
 
 
+encode_code = 'utf-8'
+
+
 def get_svnlog(id):
     svncmd = 'svn log --search #{}'.format(id)
-    return subprocess.run(svncmd.split(' '), encoding='utf-8', stdout=subprocess.PIPE).stdout
+    return subprocess.run(svncmd.split(' '), encoding=encode_code, stdout=subprocess.PIPE).stdout
 
 
 def parselog_1(lst, rtn):
@@ -41,11 +44,16 @@ def parsediffsummarize_1(line):
 def parsediffsummarize(str):
     lst = str.split('\n')[0:-1]
     return map(parsediffsummarize_1, lst)
-    
+
+
+def minus_rev(rev):
+    revnum = int(rev.replace('r', ''))
+    return 'r{}'.format(revnum - 1)
+
 
 def get_diff_files(rev):
-    cmd = 'svn diff -r r{}:PREV --summarize'.format(rev)
-    cmdresult = subprocess.run(cmd.split(' '), encoding='utf-8', stdout=subprocess.PIPE).stdout
+    cmd = 'svn diff -r {}:{} --summarize'.format(rev, minus_rev(rev))
+    cmdresult = subprocess.run(cmd.split(' '), encoding=encode_code, stdout=subprocess.PIPE).stdout
     return {'rev': rev, 'files': parsediffsummarize(cmdresult)}
 
     

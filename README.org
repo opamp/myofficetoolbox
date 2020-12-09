@@ -135,7 +135,7 @@ $ svn log --search "#{ticketID}"
 その後、関連のリビジョン番号Xそれぞれについて下記のコマンドを実行する。
 
 #+begin_src 
-$ svn diff -r rX:PREV --summarize
+$ svn diff -r rX:r(X-1) --summarize
 #+end_src
 
 これによって出力されるファイルを一覧表示する。
