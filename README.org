@@ -120,7 +120,35 @@ CPU使用率はGet-Counterで取得するように作成したが、取得時間
 $ ResourceTester $False output.csv,timeinfo.csv 500 emacs main.c
 #+END_SRC
 
+** svnticketfiles
+*** 概要
+
+svnのlog情報から指定されたチケットIDのログ（コミット）のみを抽出し、そのコミットで変更された
+ファイル一覧を表示する。
+
+動作としては、下記のコマンドで出力される関連コミットを取得する。
+
+#+begin_src 
+$ svn log --search "#{ticketID}"
+#+end_src
+
+その後、関連のリビジョン番号Xそれぞれについて下記のコマンドを実行する。
+
+#+begin_src 
+$ svn diff -r rX:PREV --summarize
+#+end_src
+
+これによって出力されるファイルを一覧表示する。
+
+*** 使い方
+
+第一引数にチケットIDを入力する。また、スクリプトはカレントディレクトリで実行されるため、カレントディレクトリが対象リポジトリ内である必要がある。
+
+#+begin_src 
+$ ./svnticketfiles 1020
+#+end_src
+
 * License
 
 License.txtを参照
-(See License.txt)
+(See License.txt
