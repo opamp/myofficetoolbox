@@ -18,6 +18,7 @@ def confirmation_id(logentry, id):
     msg = logentry.find('msg').text
     msg = msg.rstrip()
     msgfinalline = msg.split('\n')[-1]
+    msgfinalline = msgfinalline.lstrip()
     revstr = msgfinalline.split(' ')[1]
     revnum = int(revstr.replace('#',''))
     if int(id) == revnum:
